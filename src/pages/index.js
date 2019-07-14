@@ -28,11 +28,13 @@ class IndexPage extends React.Component {
         },
         site: {
           siteMetadata: { facebook }
-        }
+        },
+        carousel: { edges: carousel }
       }
     } = this.props;
 
     const backgrounds = {
+      carousel,
       desktop,
       tablet,
       mobile
@@ -122,6 +124,16 @@ export const query = graphql`
     bgMobile: imageSharp(fluid: { originalName: { regex: "/hero-background/" } }) {
       resize(width: 450, height: 850, quality: 90, cropFocus: CENTER) {
         src
+      }
+    }
+    carousel: allImageSharp(filter: { fluid: { originalName: { regex: "/zdenek/" } } }) {
+      edges {
+        node {
+          resize(width: 1200, quality: 90, cropFocus: CENTER) {
+            src
+          }
+          id
+        }
       }
     }
   }

@@ -15,19 +15,15 @@ class Menu extends React.Component {
     super(props);
     this.itemList = React.createRef();
 
-    const pages = props.pages.map(page => ({
-      to: page.node.fields.slug,
-      label: page.node.frontmatter.menuTitle
-        ? page.node.frontmatter.menuTitle
-        : page.node.frontmatter.title
+    const pages = props.pages.filter(page => page.node.title !== "Home").map(page => ({
+      to: page.node.path,
+      label: page.node.title
     }));
 
     this.items = [
       { to: "/", label: "Home", icon: FaHome },
-      { to: "/category/", label: "Categories", icon: FaTag },
       { to: "/search/", label: "Search", icon: FaSearch },
-      ...pages,
-      { to: "/contact/", label: "Contact", icon: FaEnvelope }
+      ...pages
     ];
 
     this.renderedItems = []; // will contain references to rendered DOM elements of menu
@@ -174,7 +170,7 @@ class Menu extends React.Component {
             padding: 0 ${theme.space.inset.s};
             position: fixed;
             width: 100%;
-            z-index: 1;
+            z-index: 100;
             transition: all ${theme.time.duration.default};
           }
 
@@ -199,6 +195,7 @@ class Menu extends React.Component {
                 top: 0;
                 height: 1px;
                 background: ${theme.color.brand.primary};
+                z-index: 100;
               }
 
               &.open {
@@ -220,6 +217,7 @@ class Menu extends React.Component {
               justify-content: flex-end;
               padding-left: 50px;
               transition: none;
+              z-index: 100;
             }
 
             .itemList {

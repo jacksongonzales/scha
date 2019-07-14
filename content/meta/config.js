@@ -1,23 +1,23 @@
 module.exports = {
-  siteTitle: "HeroBlog - a GatsbyJS starter", // <title>
-  shortSiteTitle: "HeroBlog - GatsbyJS starter", // <title> ending for posts and pages
-  siteDescription: "HeroBlog is a GatsbyJS starter.",
+  siteTitle: "SCHA - Solar Community Housing Association", // <title>
+  shortSiteTitle: "SCHA", // <title> ending for posts and pages
+  siteDescription: "Solar Community Housing Association",
   siteUrl: "https://gatsby-starter-hero-blog.greglobinski.com",
   // pathPrefix: "",
   siteImage: "preview.jpg",
   siteLanguage: "en",
 
   /* author */
-  authorName: "greg lobinski",
-  authorTwitterAccount: "greglobinski",
+  authorName: "jackson flint-gonzales",
+  authorTwitterAccount: "jacksonfg",
 
   /* info */
-  headerTitle: "greg lobinski",
-  headerSubTitle: "presents another one GatsbyJS starter",
+  headerTitle: "SCHA",
+  headerSubTitle: "there is only one way out",
 
   /* manifest.json */
-  manifestName: "HeroBlog - a GatsbyJS starter",
-  manifestShortName: "HeroBlog", // max 12 characters
+  manifestName: "SCHA - Solar Community Housing Association",
+  manifestShortName: "SCHA", // max 12 characters
   manifestStartUrl: "/index.html",
   manifestBackgroundColor: "white",
   manifestThemeColor: "#666",

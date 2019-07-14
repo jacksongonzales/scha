@@ -25,6 +25,12 @@ export default class HTML extends React.Component {
           <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
           <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
           <link rel="icon" type="image/png" sizes="96x96" href="/icons/favicon-96x96.png" />
+          <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossOrigin="anonymous"
+          />
         </head>
         <body {...this.props.bodyAttributes}>
           {this.props.preBodyComponents}

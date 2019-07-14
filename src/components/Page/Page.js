@@ -6,10 +6,7 @@ import Bodytext from "../Article/Bodytext";
 
 const Page = props => {
   const {
-    page: {
-      html,
-      frontmatter: { title }
-    },
+    page: { content: html, title },
     theme
   } = props;
 

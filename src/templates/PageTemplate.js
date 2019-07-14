@@ -9,6 +9,7 @@ import { ThemeContext } from "../layouts";
 const PageTemplate = props => {
   const {
     data: {
+      wordpressPage,
       page,
       site: {
         siteMetadata: { facebook }
@@ -21,12 +22,12 @@ const PageTemplate = props => {
       <ThemeContext.Consumer>
         {theme => (
           <Article theme={theme}>
-            <Page page={page} theme={theme} />
+            <Page page={wordpressPage || page} theme={theme} />
           </Article>
         )}
       </ThemeContext.Consumer>
 
-      <Seo data={page} facebook={facebook} />
+      <Seo data={wordpressPage || page} facebook={facebook} />
     </React.Fragment>
   );
 };
@@ -40,6 +41,12 @@ export default PageTemplate;
 //eslint-disable-next-line no-undef
 export const pageQuery = graphql`
   query PageByPath($slug: String!) {
+    wordpressPage(slug: { eq: $slug }) {
+      id
+      slug
+      content
+      title
+    }
     page: markdownRemark(fields: { slug: { eq: $slug } }) {
       id
       html

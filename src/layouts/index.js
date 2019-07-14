@@ -80,20 +80,12 @@ class Layout extends React.Component {
       <StaticQuery
         query={graphql`
           query LayoutQuery {
-            pages: allMarkdownRemark(
-              filter: { fileAbsolutePath: { regex: "//pages//" }, fields: { prefix: { regex: "/^\\d+$/" } } }
-              sort: { fields: [fields___prefix], order: ASC }
-            ) {
+            pages: allWordpressPage {
               edges {
                 node {
-                  fields {
-                    slug
-                    prefix
-                  }
-                  frontmatter {
-                    title
-                    menuTitle
-                  }
+                  path
+                  title
+                  menu_order
                 }
               }
             }

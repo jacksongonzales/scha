@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import Carousel, { Item, Caption } from "react-bootstrap/Carousel";
 import { FaArrowDown } from "react-icons/fa/";
 
 const Hero = props => {
@@ -8,55 +9,36 @@ const Hero = props => {
 
   return (
     <React.Fragment>
-      <section className="hero">
-        <h1>
-          This is a demo site of&nbsp;the <strong>heroBlog</strong> GatsbyJS starter
-        </h1>
-        <button onClick={scrollToContent} aria-label="scroll">
-          <FaArrowDown />
-        </button>
-      </section>
+      <Carousel className="hero">
+        {backgrounds.carousel.map(img => (
+          <Item key={img.node.id}>
+            <img src={img.node.resize.src} className="img" />
+            <Caption>
+              <h1>I got the horses in the back</h1>
+              <button onClick={scrollToContent} aria-label="scroll">
+                <FaArrowDown />
+              </button>
+            </Caption>
+          </Item>
+        ))}
+      </Carousel>
 
       {/* --- STYLES --- */}
       <style jsx>{`
+        .img {
+          width: 100%;
+          height: 100%;
+        }
+
         .hero {
           align-items: center;
-          background: ${theme.hero.background};
-          background-image: url(${backgrounds.mobile});
-          background-size: cover;
-          color: ${theme.text.color.primary.inverse};
           display: flex;
           flex-flow: column nowrap;
           justify-content: center;
           min-height: 100vh;
-          height: 100px;
+          height: 100vh;
           padding: ${theme.space.inset.l};
           padding-top: ${theme.header.height.homepage};
-        }
-
-        h1 {
-          text-align: center;
-          font-size: ${theme.hero.h1.size};
-          margin: ${theme.space.stack.l};
-          color: ${theme.hero.h1.color};
-          line-height: ${theme.hero.h1.lineHeight};
-          text-remove-gap: both 0 "Open Sans";
-
-          :global(strong) {
-            position: relative;
-
-            &::after,
-            &::before {
-              content: "›";
-              color: ${theme.text.color.attention};
-              margin: 0 ${theme.space.xs} 0 0;
-              text-shadow: 0 0 ${theme.space.s} ${theme.color.neutral.gray.k};
-            }
-            &::after {
-              content: "‹";
-              margin: 0 0 0 ${theme.space.xs};
-            }
-          }
         }
 
         button {
@@ -104,7 +86,6 @@ const Hero = props => {
           }
 
           h1 {
-            max-width: 90%;
             font-size: ${`calc(${theme.hero.h1.size} * 1.3)`};
           }
 
@@ -119,7 +100,6 @@ const Hero = props => {
           }
 
           h1 {
-            max-width: 80%;
             font-size: ${`calc(${theme.hero.h1.size} * 1.5)`};
           }
 
