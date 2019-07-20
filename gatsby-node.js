@@ -69,18 +69,6 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
-      allWordpressPost {
-        edges {
-          node {
-            id
-            slug
-            path
-            status
-            template
-            format
-          }
-        }
-      }
       allMarkdownRemark(
               ` +
       filters +
@@ -113,7 +101,7 @@ exports.createPages = async ({ graphql, actions }) => {
   }
 
   // Access query results via object destructuring
-  const { allWordpressPage, allWordpressPost } = result.data;
+  const { allWordpressPage /*, allWordpressPost */ } = result.data;
 
   // Create Page pages.
   const pageTemplate = path.resolve(`./src/templates/PageTemplate.js`);
@@ -144,16 +132,18 @@ exports.createPages = async ({ graphql, actions }) => {
   // The path field stems from the original WordPress link
   // and we use it for the slug to preserve url structure.
   // The Post ID is prefixed with 'POST_'
-  allWordpressPost.edges.forEach(edge => {
-    createPage({
-      path: edge.node.path,
-      component: slash(postTemplate),
-      context: {
-        id: edge.node.id,
-        slug: edge.node.slug
-      }
-    });
-  });
+
+  // TODO: how to display posts?
+  // allWordpressPost.edges.forEach(edge => {
+  // createPage({
+  // path: edge.node.path,
+  // component: slash(postTemplate),
+  // context: {
+  // id: edge.node.id,
+  // slug: edge.node.slug
+  // }
+  // });
+  // });
   const items = result.data.allMarkdownRemark.edges;
 
   // Create category list

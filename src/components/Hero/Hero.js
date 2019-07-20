@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Helmet from "react-helmet";
 
 import Carousel, { Item, Caption } from "react-bootstrap/Carousel";
 import { FaArrowDown } from "react-icons/fa/";
@@ -9,19 +10,21 @@ const Hero = props => {
 
   return (
     <React.Fragment>
-      <Carousel className="hero">
-        {backgrounds.carousel.map(img => (
-          <Item key={img.node.id}>
-            <img src={img.node.resize.src} className="img" />
-            <Caption>
-              <h1>I got the horses in the back</h1>
-              <button onClick={scrollToContent} aria-label="scroll">
-                <FaArrowDown />
-              </button>
-            </Caption>
-          </Item>
-        ))}
-      </Carousel>
+      {typeof window !== "undefined" && (
+        <Carousel className="hero">
+          {backgrounds.carousel.map(img => (
+            <Item key={img.node.id}>
+              <img src={img.node.resize.src} className="img" />
+              <Caption>
+                <h1>I got the horses in the back</h1>
+                <button onClick={scrollToContent} aria-label="scroll">
+                  <FaArrowDown />
+                </button>
+              </Caption>
+            </Item>
+          ))}
+        </Carousel>
+      )}
 
       {/* --- STYLES --- */}
       <style jsx>{`

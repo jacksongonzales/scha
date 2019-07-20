@@ -8,13 +8,11 @@ import Search from "../components/Search";
 import { ThemeContext } from "../layouts";
 import Seo from "../components/Seo";
 
-import AlgoliaIcon from "!svg-react-loader!../images/svg-icons/search-by-algolia.svg?name=AlgoliaLogo";
-
 const SearchPage = props => {
   const {
     data: {
       site: {
-        siteMetadata: { algolia, facebook }
+        siteMetadata: { facebook }
       }
     }
   } = props;
@@ -24,11 +22,9 @@ const SearchPage = props => {
       <ThemeContext.Consumer>
         {theme => (
           <Article theme={theme}>
-            <div className="icon">
-              <AlgoliaIcon />
-            </div>
+            <div className="icon" />
 
-            <Search algolia={algolia} theme={theme} />
+            <Search />
           </Article>
         )}
       </ThemeContext.Consumer>
@@ -61,11 +57,6 @@ export const query = graphql`
   query SearchQuery {
     site {
       siteMetadata {
-        algolia {
-          appId
-          searchOnlyApiKey
-          indexName
-        }
         facebook {
           appId
         }
