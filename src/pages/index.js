@@ -32,7 +32,6 @@ class IndexPage extends React.Component {
         carousel: { edges: carousel }
       }
     } = this.props;
-    console.log(carousel);
 
     const backgrounds = {
       carousel,
