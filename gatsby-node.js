@@ -5,6 +5,29 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 
 const { createFilePath } = require(`gatsby-source-filesystem`);
 
+exports.sourceNodes = ({ actions }) => {
+  const { createTypes } = actions;
+
+  createTypes(`
+    type Image_Meta @dontInfer {
+      aperture: String
+      created_timestamp: String
+      focal_length: String
+      iso: String
+      shutter_speed: String
+      orientation: String
+    }
+    type Media_Details @dontInfer {
+      width: Int
+      height: Int
+      image_meta: Image_Meta
+    }
+    type wordpress__wp_media @dontInfer {
+      media_details: Media_Details
+    }
+  `);
+};
+
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
   if (node.internal.type === `MarkdownRemark`) {
