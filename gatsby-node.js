@@ -1,4 +1,3 @@
-const _ = require("lodash");
 const path = require(`path`);
 const slash = require(`slash`);
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
@@ -65,14 +64,10 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
 // Will create pages for WordPress posts (route : /post/{slug})
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
-  const categoryTemplate = path.resolve("./src/templates/CategoryTemplate.js");
 
   // Do not create draft post files in production.
   let activeEnv = process.env.ACTIVE_ENV || process.env.NODE_ENV || "development";
   console.log(`Using environment config: '${activeEnv}'`);
-  let filters = `filter: { fields: { slug: { ne: null } } }`;
-  if (activeEnv == "production")
-    filters = `filter: { fields: { slug: { ne: null } , prefix: { ne: null } } }`;
 
   // The “graphql” function allows us to run arbitrary
   // queries against the local Gatsby GraphQL schema. Think of
@@ -92,12 +87,13 @@ exports.createPages = async ({ graphql, actions }) => {
             }
           }
         }
-        allWordpressPost {
+        allWordpressPost(filter: { categories: { elemMatch: { slug: { regex: "/history/" } } } }) {
           edges {
             node {
-              id
               slug
-              path
+              categories {
+                slug
+              }
             }
           }
         }
@@ -146,74 +142,11 @@ exports.createPages = async ({ graphql, actions }) => {
   // TODO: how to display posts?
   allWordpressPost.edges.forEach(edge => {
     createPage({
-      path: edge.node.path,
+      path: edge.node.slug,
       component: slash(postTemplate),
       context: {
         id: edge.node.id,
         slug: edge.node.slug
-      }
-    });
-  });
-  const items = result.data.allMarkdownRemark.edges;
-
-  // Create category list
-  const categorySet = new Set();
-  items.forEach(edge => {
-    const {
-      node: {
-        frontmatter: { category }
-      }
-    } = edge;
-
-    if (category && category !== null) {
-      categorySet.add(category);
-    }
-  });
-
-  // Create category pages
-  const categoryList = Array.from(categorySet);
-  categoryList.forEach(category => {
-    createPage({
-      path: `/category/${_.kebabCase(category)}/`,
-      component: categoryTemplate,
-      context: {
-        category
-      }
-    });
-  });
-
-  // Create posts
-  const posts = items.filter(item => item.node.fields.source === "posts");
-  posts.forEach(({ node }, index) => {
-    const slug = node.fields.slug;
-    const next = index === 0 ? undefined : posts[index - 1].node;
-    const prev = index === posts.length - 1 ? undefined : posts[index + 1].node;
-    const source = node.fields.source;
-
-    createPage({
-      path: slug,
-      component: postTemplate,
-      context: {
-        slug,
-        prev,
-        next,
-        source
-      }
-    });
-  });
-
-  // and pages.
-  const pages = items.filter(item => item.node.fields.source === "pages");
-  pages.forEach(({ node }) => {
-    const slug = node.fields.slug;
-    const source = node.fields.source;
-
-    createPage({
-      path: slug,
-      component: pageTemplate,
-      context: {
-        slug,
-        source
       }
     });
   });
