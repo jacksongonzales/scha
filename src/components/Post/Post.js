@@ -19,22 +19,22 @@ const Share = asyncComponent(() =>
 );
 
 const Post = props => {
-  const {
-    post,
-    post: {
-      html,
-      fields: { prefix, slug },
-      frontmatter: { title, author, category }
-    },
-    authornote,
-    facebook,
-    next: nextPost,
-    prev: prevPost,
-    theme
-  } = props;
+  // const {
+  // post,
+  // post: {
+  // html,
+  // fields: { prefix, slug },
+  // frontmatter: { title, author, category }
+  // },
+  // authornote,
+  // facebook,
+  // next: nextPost,
+  // prev: prevPost,
+  // theme
+  // } = props;
 
-  return (
-    <React.Fragment>
+  return {
+    /*    <React.Fragment>
       <header>
         <Headline title={title} theme={theme} />
         <Meta prefix={prefix} author={author} category={category} theme={theme} />
@@ -47,7 +47,8 @@ const Post = props => {
         <Comments slug={slug} facebook={facebook} theme={theme} />
       </footer>
     </React.Fragment>
-  );
+    */
+  };
 };
 
 Post.propTypes = {
