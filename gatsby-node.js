@@ -107,7 +107,7 @@ exports.createPages = async ({ graphql, actions }) => {
   }
 
   // Access query results via object destructuring
-  const { allWordpressPage, allWordpressPost } = result.data;
+  const { allWordpressPage } = result.data;
 
   // Create Page pages.
   const pageTemplate = path.resolve(`./src/templates/PageTemplate.js`);
@@ -140,16 +140,16 @@ exports.createPages = async ({ graphql, actions }) => {
   // The Post ID is prefixed with 'POST_'
 
   // TODO: how to display posts?
-  allWordpressPost.edges.forEach(edge => {
-    createPage({
-      path: edge.node.slug,
-      component: slash(pageTemplate),
-      context: {
-        id: edge.node.id,
-        slug: edge.node.slug
-      }
-    });
-  });
+  // allWordpressPost.edges.forEach(edge => {
+  // createPage({
+  // path: edge.node.slug,
+  // component: slash(pageTemplate),
+  // context: {
+  // id: edge.node.id,
+  // slug: edge.node.slug
+  // }
+  // });
+  // });
 };
 
 exports.onCreateWebpackConfig = ({ getConfig, stage, actions }, options) => {
