@@ -10,7 +10,6 @@ const PageTemplate = props => {
   const {
     data: {
       wordpressPage,
-      page,
       site: {
         siteMetadata: { facebook }
       }
@@ -22,12 +21,12 @@ const PageTemplate = props => {
       <ThemeContext.Consumer>
         {theme => (
           <Article theme={theme}>
-            <Page page={wordpressPage || page} theme={theme} />
+            <Page page={wordpressPage} theme={theme} />
           </Article>
         )}
       </ThemeContext.Consumer>
 
-      <Seo data={wordpressPage || page} facebook={facebook} />
+      <Seo data={wordpressPage} facebook={facebook} />
     </React.Fragment>
   );
 };
@@ -46,13 +45,6 @@ export const pageQuery = graphql`
       slug
       content
       title
-    }
-    page: markdownRemark(fields: { slug: { eq: $slug } }) {
-      id
-      html
-      frontmatter {
-        title
-      }
     }
     site {
       siteMetadata {

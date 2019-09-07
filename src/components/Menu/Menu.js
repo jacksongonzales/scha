@@ -1,30 +1,18 @@
-import React from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 require("core-js/fn/array/from");
 
-import { FaHome } from "react-icons/fa/";
-import { FaSearch } from "react-icons/fa/";
-import { FaEnvelope } from "react-icons/fa/";
-import { FaTag } from "react-icons/fa/";
+import { FaAngleDown, FaHome } from "react-icons/fa/";
 
 import Item from "./Item";
 import Expand from "./Expand";
 
-class Menu extends React.Component {
+class Menu extends Component {
   constructor(props) {
     super(props);
     this.itemList = React.createRef();
 
-    const pages = props.pages.filter(page => page.node.title !== "Home").map(page => ({
-      to: page.node.path,
-      label: page.node.title
-    }));
-
-    this.items = [
-      { to: "/", label: "Home", icon: FaHome },
-      { to: "/search/", label: "Search", icon: FaSearch },
-      ...pages
-    ];
+    this.items = this.processPages(this.props.pages);
 
     this.renderedItems = []; // will contain references to rendered DOM elements of menu
   }
@@ -60,6 +48,36 @@ class Menu extends React.Component {
       this.hideOverflowedMenuItems();
     }
   }
+
+  processPages = p => {
+    let pages = p.filter(topLevelPage => topLevelPage.node.parent_element === null);
+    pages.sort((a, b) => a.node.menu_order - b.node.menu_order);
+    pages = pages.map(page => {
+      const children = p
+        .filter(pageChildren => {
+          const parentUrl = page.node.path.match(/\/.+$/);
+          return pageChildren.node.path.match(parentUrl) && pageChildren.node.parent_element;
+        })
+        .sort((a, b) => a.node.menu_order - b.node.menu_order);
+      let icon = null;
+      if (page.node.title === "Home") {
+        icon = FaHome;
+      } else if (children.length) {
+        icon = FaAngleDown;
+      }
+      return {
+        to: page.node.path,
+        label: page.node.title,
+        icon,
+        children: children.map(child => ({
+          to: child.node.path,
+          label: child.node.title,
+          icon: null
+        }))
+      };
+    });
+    return pages;
+  };
 
   getRenderedItems = () => {
     const itemList = this.itemList.current;
@@ -139,7 +157,7 @@ class Menu extends React.Component {
     const { open } = this.state;
 
     return (
-      <React.Fragment>
+      <Fragment>
         <nav className={`menu ${open ? "open" : ""}`} rel="js-menu">
           <ul className="itemList" ref={this.itemList}>
             {this.items.map(item => (
@@ -244,7 +262,7 @@ class Menu extends React.Component {
               &:after {
                 content: "";
                 background: ${theme.background.color.primary};
-                z-index: 10;
+                z-index: 20;
                 top: -10px;
                 right: -1px;
                 width: 44px;
@@ -273,7 +291,7 @@ class Menu extends React.Component {
             }
           }
         `}</style>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }

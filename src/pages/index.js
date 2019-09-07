@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { Component, Fragment } from "react";
 import { graphql } from "gatsby";
 import { ThemeContext } from "../layouts";
-import Blog from "../components/Blog";
+import Article from "../components/Article";
+import Page from "../components/Page";
 import Hero from "../components/Hero";
 import Seo from "../components/Seo";
 
-class IndexPage extends React.Component {
+class IndexPage extends Component {
   separator = React.createRef();
 
   scrollToContent = e => {
@@ -16,7 +17,7 @@ class IndexPage extends React.Component {
   render() {
     const {
       data: {
-        posts: { edges: posts = [] },
+        wordpressPage: indexPage,
         bgDesktop: {
           resize: { src: desktop }
         },
@@ -41,7 +42,7 @@ class IndexPage extends React.Component {
     };
 
     return (
-      <React.Fragment>
+      <Fragment>
         <ThemeContext.Consumer>
           {theme => (
             <Hero scrollToContent={this.scrollToContent} backgrounds={backgrounds} theme={theme} />
@@ -51,7 +52,11 @@ class IndexPage extends React.Component {
         <hr ref={this.separator} />
 
         <ThemeContext.Consumer>
-          {theme => <Blog posts={posts} theme={theme} />}
+          {theme => (
+            <Article theme={theme}>
+              <Page page={indexPage} theme={theme} />
+            </Article>
+          )}
         </ThemeContext.Consumer>
 
         <Seo facebook={facebook} />
@@ -62,7 +67,7 @@ class IndexPage extends React.Component {
             border: 0;
           }
         `}</style>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
@@ -76,33 +81,9 @@ export default IndexPage;
 //eslint-disable-next-line no-undef
 export const query = graphql`
   query IndexQuery {
-    posts: allMarkdownRemark(
-      filter: { fileAbsolutePath: { regex: "//posts/[0-9]+.*--/" } }
-      sort: { fields: [fields___prefix], order: DESC }
-    ) {
-      edges {
-        node {
-          excerpt
-          fields {
-            slug
-            prefix
-          }
-          frontmatter {
-            title
-            category
-            author
-            cover {
-              children {
-                ... on ImageSharp {
-                  fluid(maxWidth: 800, maxHeight: 360) {
-                    ...GatsbyImageSharpFluid_withWebp
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+    wordpressPage(path: { regex: "/^/$/" }) {
+      content
+      title
     }
     site {
       siteMetadata {

@@ -37,13 +37,6 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/content/pages/`,
-        name: "pages"
-      }
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
         name: `parts`,
         path: `${__dirname}/content/parts/`
       }
@@ -274,14 +267,14 @@ module.exports = {
         // It can help you debug specific API Endpoints problems.
         verboseOutput: true,
         // Set how many pages are retrieved per API request.
-        perPage: 50,
+        perPage: 100,
         // Search and Replace Urls across WordPress content.
         searchAndReplaceContentUrls: {
           sourceUrl: "https://source-url.com",
           replacementUrl: "https://replacement-url.com"
         },
         // Set how many simultaneous requests are sent at once.
-        concurrentRequests: 5,
+        concurrentRequests: 10,
         // Set WP REST API routes whitelists
         // and blacklists using glob patterns.
         // Defaults to whitelist the routes shown
@@ -293,15 +286,24 @@ module.exports = {
         // Whitelisted routes using glob patterns
         includedRoutes: [
           "**/categories",
-          // "**/posts",
           "**/pages",
           "**/media",
           "**/tags",
-          "**/taxonomies",
+          // "**/taxonomies",
+          "**/posts",
           "**/users"
         ],
         // Blacklisted routes using glob patterns
-        excludedRoutes: ["**/posts/1456"],
+        excludedRoutes: [
+          "**/oembed",
+          "**/askimet",
+          "**/blocks",
+          "**/feedback",
+          "**/types",
+          "**/statuses",
+          "**/block-renderer",
+          "**/themes*"
+        ],
         // use a custom normalizer which is applied after the built-in ones.
         normalizer: function({ entities }) {
           return entities;

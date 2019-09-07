@@ -1,7 +1,7 @@
 import "typeface-open-sans";
 import FontFaceObserver from "fontfaceobserver";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { Component, Fragment } from "react";
 import { graphql, StaticQuery } from "gatsby";
 
 import { getScreenWidth, timeoutThrottlerHandler } from "../utils/helpers";
@@ -14,7 +14,7 @@ export const FontLoadedContext = React.createContext(false);
 
 import themeObjectFromYaml from "../theme/theme.yaml";
 
-class Layout extends React.Component {
+class Layout extends Component {
   constructor() {
     super();
 
@@ -86,6 +86,9 @@ class Layout extends React.Component {
                   path
                   title
                   menu_order
+                  parent_element {
+                    path
+                  }
                 }
               }
             }
@@ -98,15 +101,18 @@ class Layout extends React.Component {
         render={data => {
           const { children } = this.props;
           const {
-            footnote: { html: footnoteHTML },
+            footnote: { html: footnoteHTML }
+          } = data;
+          let {
             pages: { edges: pages }
           } = data;
+          pages = pages.filter(({ node: { path } }) => !/^\/follow-us-on-social-media$/.test(path));
 
           return (
             <ThemeContext.Provider value={this.state.theme}>
               <FontLoadedContext.Provider value={this.state.font400loaded}>
                 <ScreenWidthContext.Provider value={this.state.screenWidth}>
-                  <React.Fragment>
+                  <Fragment>
                     <Header
                       path={this.props.location.pathname}
                       pages={pages}
@@ -163,7 +169,7 @@ class Layout extends React.Component {
                         display: block;
                       }
                     `}</style>
-                  </React.Fragment>
+                  </Fragment>
                 </ScreenWidthContext.Provider>
               </FontLoadedContext.Provider>
             </ThemeContext.Provider>
@@ -181,33 +187,3 @@ Layout.propTypes = {
 };
 
 export default Layout;
-
-//eslint-disable-next-line no-undef
-/*
-export const postQuery = graphql`
-  query LayoutQuery {
-    pages: allMarkdownRemark(
-      filter: { fileAbsolutePath: { regex: "//pages//" }, fields: { prefix: { regex: "/^\\d+$/" } } }
-      sort: { fields: [fields___prefix], order: ASC }
-    ) {
-      edges {
-        node {
-          fields {
-            slug
-            prefix
-          }
-          frontmatter {
-            title
-            menuTitle
-          }
-        }
-      }
-    }
-    footnote: markdownRemark(fileAbsolutePath: { regex: "/footnote/" }) {
-      id
-      html
-    }
-  }
-`;
-
-*/

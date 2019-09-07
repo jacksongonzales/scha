@@ -1,6 +1,6 @@
 import { Link } from "gatsby";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { Component, Fragment } from "react";
 import VisibilitySensor from "react-visibility-sensor";
 
 import { ScreenWidthContext, FontLoadedContext } from "../../layouts";
@@ -9,7 +9,7 @@ import Menu from "../Menu";
 
 import sun from "../../images/png/sun.png";
 
-class Header extends React.Component {
+class Header extends Component {
   state = {
     fixed: false
   };
@@ -34,7 +34,7 @@ class Header extends React.Component {
     const { fixed } = this.state;
 
     return (
-      <React.Fragment>
+      <Fragment>
         <header className={`header ${this.getHeaderSize()}`}>
           <Link to="/" className="logoType">
             <div className="logo">
@@ -190,7 +190,7 @@ class Header extends React.Component {
                 position: fixed;
                 top: 0;
                 width: 100%;
-                z-index: 10;
+                z-index: 20;
 
                 h1 {
                   margin: ${theme.space.stack.xxs};
@@ -247,7 +247,7 @@ class Header extends React.Component {
             }
           }
         `}</style>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }

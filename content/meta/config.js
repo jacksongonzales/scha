@@ -2,7 +2,7 @@ module.exports = {
   siteTitle: "SCHA - Solar Community Housing Association", // <title>
   shortSiteTitle: "SCHA", // <title> ending for posts and pages
   siteDescription: "Solar Community Housing Association",
-  siteUrl: "https://gatsby-starter-hero-blog.greglobinski.com",
+  siteUrl: "http://schadavis.org",
   // pathPrefix: "",
   siteImage: "preview.jpg",
   siteLanguage: "en",
@@ -32,8 +32,8 @@ module.exports = {
 
   // social
   authorSocialLinks: [
-    { name: "github", url: "https://github.com/greglobinski" },
-    { name: "twitter", url: "https://twitter.com/greglobinski" },
-    { name: "facebook", url: "http://facebook.com/greglobinski" }
+    { name: "github", url: "https://github.com/jacksonfgonzales" },
+    { name: "twitter", url: "https://twitter.com/" },
+    { name: "facebook", url: "http://facebook.com/" }
   ]
 };

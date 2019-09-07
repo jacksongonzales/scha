@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
 import Carousel, { Item, Caption } from "react-bootstrap/Carousel";
@@ -8,7 +8,7 @@ const Hero = props => {
   const { scrollToContent, backgrounds, theme } = props;
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Carousel className="hero">
         {backgrounds.carousel.map(img => (
           <Item key={img.node.id}>
@@ -28,6 +28,14 @@ const Hero = props => {
         .img {
           width: 100%;
           height: 100%;
+        }
+
+        .carousel-caption {
+          z-index: 0;
+        }
+
+        .carousel-indicators {
+          z-index: 0;
         }
 
         .hero {
@@ -108,7 +116,7 @@ const Hero = props => {
           }
         }
       `}</style>
-    </React.Fragment>
+    </Fragment>
   );
 };
 

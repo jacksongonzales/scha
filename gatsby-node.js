@@ -80,42 +80,29 @@ exports.createPages = async ({ graphql, actions }) => {
   // from the fetched data that you can run queries against.
   const result = await graphql(
     `
-    {
-      allWordpressPage {
-        edges {
-          node {
-            id
-            slug
-            path
-            status
-            template
+      {
+        allWordpressPage {
+          edges {
+            node {
+              id
+              slug
+              path
+              status
+              template
+            }
+          }
+        }
+        allWordpressPost {
+          edges {
+            node {
+              id
+              slug
+              path
+            }
           }
         }
       }
-      allMarkdownRemark(
-              ` +
-      filters +
-      `
-              sort: { fields: [fields___prefix], order: DESC }
-              limit: 1000
-            ) {
-              edges {
-                node {
-                  id
-                  fields {
-                    slug
-                    prefix
-                    source
-                  }
-                  frontmatter {
-                    title
-                    category
-                  }
-                }
-              }
-            }
-    }
-  `
+    `
   );
 
   // Check for any errors
@@ -124,7 +111,7 @@ exports.createPages = async ({ graphql, actions }) => {
   }
 
   // Access query results via object destructuring
-  const { allWordpressPage /*, allWordpressPost */ } = result.data;
+  const { allWordpressPage, allWordpressPost } = result.data;
 
   // Create Page pages.
   const pageTemplate = path.resolve(`./src/templates/PageTemplate.js`);
@@ -157,16 +144,16 @@ exports.createPages = async ({ graphql, actions }) => {
   // The Post ID is prefixed with 'POST_'
 
   // TODO: how to display posts?
-  // allWordpressPost.edges.forEach(edge => {
-  // createPage({
-  // path: edge.node.path,
-  // component: slash(postTemplate),
-  // context: {
-  // id: edge.node.id,
-  // slug: edge.node.slug
-  // }
-  // });
-  // });
+  allWordpressPost.edges.forEach(edge => {
+    createPage({
+      path: edge.node.path,
+      component: slash(postTemplate),
+      context: {
+        id: edge.node.id,
+        slug: edge.node.slug
+      }
+    });
+  });
   const items = result.data.allMarkdownRemark.edges;
 
   // Create category list
